@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JustCopy.ai - AI-Powered Content Generation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links li {
+            animation: fadeInDown 0.8s ease-out both;
+        }
+
+        .nav-links li:nth-child(1) { animation-delay: 0.1s; }
+        .nav-links li:nth-child(2) { animation-delay: 0.2s; }
+        .nav-links li:nth-child(3) { animation-delay: 0.3s; }
+        .nav-links li:nth-child(4) { animation-delay: 0.4s; }
+        .nav-links li:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transition: left 0.3s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 100px 50px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out, float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: #aaa;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: float-particle 20s infinite;
+            box-shadow: 0 0 10px #667eea;
+        }
+
+        @keyframes float-particle {
+            0%, 100% { 
+                transform: translate(0, 0); 
+                opacity: 0; 
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+        }
+
+        /* Glowing orbs */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: moveOrb 15s infinite ease-in-out;
+        }
+
+        @keyframes moveOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(100px, -100px) scale(1.2); }
+            66% { transform: translate(-100px, 100px) scale(0.8); }
+        }
+
+        .orb1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(102, 126, 234, 0.3);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(118, 75, 162, 0.2);
+            top: 50%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+
+        .orb3 {
+            width: 250px;
+            height: 250px;
+            background: rgba(102, 126, 234, 0.25);
+            bottom: 20%;
+            left: 30%;
+            animation-delay: 10s;
+        }
+
+        /* Student Ambassador Section */
+        .ambassador {
+            padding: 100px 50px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ambassador::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(102,126,234,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .ambassador-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .ambassador-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .ambassador-header h2 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .ambassador-header .subtitle {
+            font-size: 28px;
+            color: #aaa;
+            font-weight: 600;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .ambassador-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .ambassador-info {
+            animation: fadeInLeft 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .ambassador-info h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .benefit-item:nth-child(1) { animation-delay: 0.5s; }
+        .benefit-item:nth-child(2) { animation-delay: 0.6s; }
+        .benefit-item:nth-child(3) { animation-delay: 0.7s; }
+        .benefit-item:nth-child(4) { animation-delay: 0.8s; }
+        .benefit-item:nth-child(5) { animation-delay: 0.9s; }
+
+        .benefit-item:hover {
+            transform: translateX(10px);
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+        }
+
+        .benefit-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h4 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .benefit-content p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Registration Form */
+        .registration-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            animation: fadeInRight 1s ease-out 0.4s both;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .registration-form h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .registration-form .form-subtitle {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            transform: scale(1.02);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .submit-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(46, 204, 113, 0.2);
+            border: 2px solid #2ecc71;
+            color: #2ecc71;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 50px;
+            background: #0a0a0a;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+            animation: expandLine 1s ease-out 0.5s both;
+        }
+
+        @keyframes expandLine {
+            from { width: 0; }
+            to { width: 100px; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card:hover .feature-icon {
+            animation: spin 0.6s ease-in-out;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+
+        .feature-card:hover h3 {
+            color: #667eea;
+        }
+
+        .feature-card p {
+            color: #aaa;
+            line-height: 1.6;
+            transition: color 0.3s;
+        }
+
+        .feature-card:hover p {
+            color: #ccc;
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 100px 50px;
+            background: #000;
+            position: relative;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .demo-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 150px;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .demo-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            transform: scale(1.01);
+        }
+
+        .demo-output {
+            width: 100%;
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            color: #fff;
+            font-size: 16px;
+            min-height: 200px;
+            margin-top: 20px;
+            animation: slideInUp 0.5s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 18px;
+            border-radius: 15px;
+            border: none;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .generate-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .generate-btn:hover::after {
+            width: 400px;
+            height: 400px;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 50px;
+            background: #0a0a0a;
+        }
+
+        .pricing-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 50px 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.8s ease-out both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:nth-child(1) { animation-delay: 0.2s; }
+        .pricing-card:nth-child(2) { animation-delay: 0.4s; }
+        .pricing-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .pricing-card:hover::before {
+            opacity: 1;
+            animation: rotate 10s linear infinite;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #667eea;
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+        }
+
+        .pricing-card h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price-period {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 12px 0;
+            color: #aaa;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover .features-list li {
+            color: #fff;
+            padding-left: 10px;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 60px 50px 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section {
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .footer-section:nth-child(1) { animation-delay: 0.1s; }
+        .footer-section:nth-child(2) { animation-delay: 0.2s; }
+        .footer-section:nth-child(3) { animation-delay: 0.3s; }
+        .footer-section:nth-child(4) { animation-delay: 0.4s; }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+            transition: transform 0.3s;
+        }
+
+        .footer-section ul li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .footer-section a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #667eea;
+            transition: width 0.3s;
+        }
+
+        .footer-section a:hover::after {
+            width: 100%;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .office-info {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .office-info h5 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .office-info p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin-loading 1s ease-in-out infinite;
+        }
+
+        @keyframes spin-loading {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            nav {
+                padding: 20px;
+            }
+
+            .features-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-container {
+                padding: 30px;
+            }
+
+            .ambassador-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ambassador-header h2 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">JustCopy.ai</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#ambassador">Ambassador</a></li>
+            <li><a href="#demo">Demo</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="affiliate-dashboard.html">Affiliates</a></li>
+        </ul>
+        <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="cta-button"><span>Get Started</span></a>
+        <button class="mobile-menu-btn">☰</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="bg-animation" id="particles">
+            <div class="glow-orb orb1"></div>
+            <div class="glow-orb orb2"></div>
+            <div class="glow-orb orb3"></div>
+        </div>
+        <div class="hero-content">
+            <h1>AI-Powered Content Generation</h1>
+            <p>Create compelling copy in seconds with the power of artificial intelligence</p>
+            <div class="hero-buttons">
+                <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="btn-primary"><span>Try It Free</span></a>
+                <button class="btn-secondary" onclick="scrollToFeatures()">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Ambassador Section -->
+    <section class="ambassador" id="ambassador">
+        <div class="ambassador-content">
+            <div class="ambassador-header">
+                <h2>Student Ambassador Program</h2>
+                <p class="subtitle">Lead the Revolution at Your Campus</p>
+            </div>
+
+            <div class="ambassador-grid">
+                <div class="ambassador-info">
+                    <h3>Why Become an Ambassador?</h3>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🎓</div>
+                        <div class="benefit-content">
+                            <h4>Build Your Resume</h4>
+                            <p>Gain real-world marketing and leadership experience while representing a cutting-edge AI company.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">💰</div>
+                        <div class="benefit-content">
+                            <h4>Earn Rewards</h4>
+                            <p>Get commission on referrals, exclusive merch, and premium access to all JustCopy.ai features.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🌟</div>
+                        <div class="benefit-content">
+                            <h4>Exclusive Training</h4>
+                            <p>Access to AI workshops, marketing masterclasses, and direct mentorship from our team.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🤝</div>
+                        <div class="benefit-content">
+                            <h4>Network & Connect</h4>
+                            <p>Join a global community of student leaders and build connections that last a lifetime.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🚀</div>
+                        <div class="benefit-content">
+                            <h4>Career Opportunities</h4>
+                            <p>Top performers get internship opportunities and job placement assistance at tech companies.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="registration-form">
+                    <h3>Join the Movement</h3>
+                    <p class="form-subtitle">Fill out the form below to become a campus ambassador</p>
+                    
+                    <form id="ambassadorForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="john@university.edu">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="university">University/College *</label>
+                            <input type="text" id="university" name="university" required placeholder="Your University Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="year">Year of Study *</label>
+                            <select id="year" name="year" required>
+                                <option value="">Select Year</option>
+                                <option value="freshman">Freshman</option>
+                                <option value="sophomore">Sophomore</option>
+                                <option value="junior">Junior</option>
+                                <option value="senior">Senior</option>
+                                <option value="graduate">Graduate</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="major">Major/Field of Study *</label>
+                            <input type="text" id="major" name="major" required placeholder="Computer Science, Business, etc.">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experience">Why do you want to be an ambassador? *</label>
+                            <textarea id="experience" name="experience" required placeholder="Tell us about your passion for AI, marketing experience, or campus involvement..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="social">Social Media Handle (Optional)</label>
+                            <input type="text" id="social" name="social" placeholder="@yourhandle">
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <span id="submitText">Submit Application</span>
+                        </button>
+
+                        <div class="success-message" id="successMessage">
+                            ✅ Application submitted successfully! We'll get back to you within 48 hours.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Powerful Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Generate high-quality content in seconds, not hours. Our AI understands context and delivers exactly what you need.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Precision Writing</h3>
+                <p>Get accurate, on-brand content every time. Our AI learns your style and adapts to your needs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Multi-Language</h3>
+                <p>Create content in over 50 languages with native-level fluency and cultural awareness.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure & Private</h3>
+                <p>Your data is encrypted and never shared. We take privacy seriously and comply with all regulations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>SEO Optimized</h3>
+                <p>Every piece of content is optimized for search engines to help you rank higher and reach more people.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>Smart Suggestions</h3>
+                <p>Get intelligent recommendations to improve your content and make it more engaging for your audience.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <h2 class="section-title">Try It Now</h2>
+        <div class="demo-container">
+            <h3 style="margin-bottom: 20px; position: relative; z-index: 1;">Enter your prompt:</h3>
+            <textarea 
+                class="demo-input" 
+                id="promptInput"
+                placeholder="Example: Write a compelling product description for eco-friendly water bottles..."></textarea>
+            <button class="generate-btn" id="generateBtn" onclick="generateContent()">
+                <span id="btnText">Generate Content</span>
+            </button>
+            <div class="demo-output" id="output" style="display: none;">
+                <h3 style="margin-bottom: 15px;">Generated Content:</h3>
+                <p id="generatedText"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Simple Pricing</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <div class="price">$19.99</div>
+                <div class="price-period">per month</div>
+                <ul class="features-list">
+                    <li>500,000 tokens/month</li>
+                    <li>2 apps included</li>
+                    <li>Priority support</li>
+                    <li>Standard quality</li>
+                    <li>Email support</li>
+                </ul>
+                <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="btn-primary">Get Started</a>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Professional</h3>
+                <div class="featured-badge" style="position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 8px 20px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Most Popular</div>
+                <div class="price">$49.99</div>
+                <div class="price-period">per month</div>
+                <ul class="features-list">
+                    <li>1,200,000 tokens/month</li>
+                    <li>5 apps included</li>
+                    <li>Priority support</li>
+                    <li>Premium quality</li>
+                    <li>Advanced features</li>
+                    <li>API access</li>
+                </ul>
+                <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="btn-primary">Get Started</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Business</h3>
+                <div class="price">$99.99</div>
+                <div class="price-period">per month</div>
+                <ul class="features-list">
+                    <li>2,500,000 tokens/month</li>
+                    <li>10 apps included</li>
+                    <li>Priority support</li>
+                    <li>Premium quality</li>
+                    <li>Advanced analytics</li>
+                    <li>API access</li>
+                    <li>Custom integrations</li>
+                </ul>
+                <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="btn-primary">Get Started</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Growth</h3>
+                <div class="featured-badge" style="position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); padding: 8px 20px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Scale Up</div>
+                <div class="price">$249</div>
+                <div class="price-period">per month</div>
+                <ul class="features-list">
+                    <li>6,000,000 tokens/month</li>
+                    <li>25 apps included</li>
+                    <li>Priority support</li>
+                    <li>Premium quality</li>
+                    <li>Advanced analytics</li>
+                    <li>API access</li>
+                    <li>Custom integrations</li>
+                    <li>Dedicated account manager</li>
+                </ul>
+                <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="btn-primary">Get Started</a>
+            </div>
+            <div class="pricing-card">
+                <h3>Scale</h3>
+                <div class="price">$499</div>
+                <div class="price-period">per month</div>
+                <ul class="features-list">
+                    <li>15,000,000 tokens/month</li>
+                    <li>50 apps included</li>
+                    <li>Priority support</li>
+                    <li>Premium quality</li>
+                    <li>Advanced analytics</li>
+                    <li>Full API access</li>
+                    <li>Custom integrations</li>
+                    <li>Dedicated account manager</li>
+                    <li>Custom training</li>
+                </ul>
+                <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="btn-primary">Get Started</a>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Enterprise</h3>
+                <div class="featured-badge" style="position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); padding: 8px 20px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Best Value</div>
+                <div class="price">$999</div>
+                <div class="price-period">per month</div>
+                <ul class="features-list">
+                    <li>40,000,000 tokens/month</li>
+                    <li>100 apps included</li>
+                    <li>24/7 Priority support</li>
+                    <li>Premium quality</li>
+                    <li>Advanced analytics</li>
+                    <li>Full API access</li>
+                    <li>Custom integrations</li>
+                    <li>Dedicated account manager</li>
+                    <li>Custom training</li>
+                    <li>White-label options</li>
+                    <li>SLA guarantee</li>
+                </ul>
+                <a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>JustCopy.ai</h4>
+                <p style="color: #666; margin-bottom: 20px;">Empowering creators with AI-powered content generation.</p>
+                <div class="office-info">
+                    <h5>📍 Headquarters</h5>
+                    <p>Seattle, Washington<br>United States</p>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="https://justcopy.ai/studio/964c9831-efeb-449c-978f-f43863c100da" target="_blank">Try Now</a></li>
+                    <li><a href="#ambassador">Ambassador Program</a></li>
+                    <li><a href="affiliate-dashboard.html">Affiliate Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 JustCopy.ai. All rights reserved. Made with ❤️ for content creators.</p>
+            <p style="margin-top: 10px; color: #555;">Headquarters: Seattle, WA, USA</p>
+        </div>
+    </footer>
+
+    <script>
+        // Create animated background particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Handle Ambassador Form Submission
+        document.getElementById('ambassadorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('.submit-btn');
+            const submitText = document.getElementById('submitText');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitText.innerHTML = '<span class="loading"></span> Submitting...';
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                university: document.getElementById('university').value,
+                year: document.getElementById('year').value,
+                major: document.getElementById('major').value,
+                experience: document.getElementById('experience').value,
+                social: document.getElementById('social').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            console.log('Ambassador Application:', formData);
+            
+            // Show success message
+            successMessage.style.display = 'block';
+            submitBtn.disabled = false;
+            submitText.textContent = 'Submit Application';
+            
+            // Reset form
+            this.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        });
+
+        // Generate content
+        async function generateContent() {
+            const input = document.getElementById('promptInput').value;
+            const output = document.getElementById('output');
+            const generatedText = document.getElementById('generatedText');
+            const btn = document.getElementById('generateBtn');
+            const btnText = document.getElementById('btnText');
+
+            if (!input.trim()) {
+                alert('Please enter a prompt');
+                return;
+            }
+
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="loading"></span> Generating...';
+            output.style.display = 'none';
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            const responses = {
+                default: `Transform your content creation with JustCopy.ai! Our cutting-edge AI technology helps you craft compelling, engaging copy that resonates with your audience. Whether you're writing blog posts, social media content, product descriptions, or marketing emails, our intelligent system understands context, tone, and intent to deliver exactly what you need.\n\nWith JustCopy.ai, you'll save hours of work while producing higher-quality content. Our advanced algorithms analyze successful content patterns and apply best practices automatically, ensuring your message hits the mark every time. Join thousands of satisfied creators who have already elevated their content game with our platform.`,
+                product: `Introducing our premium eco-friendly water bottles – the perfect blend of sustainability and style! Crafted from 100% BPA-free, recycled materials, these bottles keep your drinks cold for 24 hours or hot for 12 hours. The sleek, modern design features a leak-proof lid and wide mouth for easy cleaning.\n\nMake a positive impact on the environment while staying hydrated in style. Each purchase helps remove plastic waste from our oceans. Available in 5 stunning colors, with a lifetime warranty. Perfect for the gym, office, or outdoor adventures. Order yours today and join the movement toward a more sustainable future!`,
+                blog: `In today's digital landscape, content is king – but creating consistently great content is challenging. That's where AI-powered writing tools come in. These innovative solutions are revolutionizing how businesses and creators approach content creation.\n\nBy leveraging advanced natural language processing, AI writing assistants can help you overcome writer's block, maintain brand consistency, and scale your content production without sacrificing quality. The key is finding the right balance between AI efficiency and human creativity.`
+            };
+
+            let response = responses.default;
+            const lowerInput = input.toLowerCase();
+            if (lowerInput.includes('product') || lowerInput.includes('description')) {
+                response = responses.product;
+            } else if (lowerInput.includes('blog') || lowerInput.includes('article')) {
+                response = responses.blog;
+            }
+
+            generatedText.textContent = response;
+            output.style.display = 'block';
+            btn.disabled = false;
+            btnText.textContent = 'Generate Content';
+
+            output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Smooth scrolling functions
+        function scrollToDemo() {
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize
+        createParticles();
+
+        // Enter key to generate
+        document.getElementById('promptInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                generateContent();
+            }
+        });
+    </script>
+</body>
+</html>
